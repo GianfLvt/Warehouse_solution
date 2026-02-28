@@ -28,6 +28,18 @@ const routes = [
       { path: 'supplier-orders/new', name: 'SupplierOrderCreate', component: () => import('@/views/SupplierOrderFormView.vue'), meta: { roles: ['admin', 'responsabile', 'magazziniere'] } },
       { path: 'quotes', name: 'Quotes', component: () => import('@/views/QuotesView.vue'), meta: { roles: ['admin', 'responsabile', 'commerciale'] } },
       { path: 'quotes/new', name: 'QuoteCreate', component: () => import('@/views/QuoteFormView.vue'), meta: { roles: ['admin', 'responsabile', 'commerciale'] } },
+      // --- WMS 4.0 routes ---
+      { path: 'warehouses', name: 'Warehouses', component: () => import('@/views/WarehousesView.vue'), meta: { roles: ['admin', 'responsabile', 'magazziniere'] } },
+      { path: 'lots', name: 'Lots', component: () => import('@/views/LotsView.vue'), meta: { roles: ['admin', 'responsabile', 'magazziniere'] } },
+      { path: 'asn', name: 'ASN', component: () => import('@/views/ASNView.vue'), meta: { roles: ['admin', 'responsabile', 'magazziniere'] } },
+      { path: 'asn/new', name: 'ASNCreate', component: () => import('@/views/ASNFormView.vue'), meta: { roles: ['admin', 'responsabile', 'magazziniere'] } },
+      { path: 'asn/:id/edit', name: 'ASNEdit', component: () => import('@/views/ASNFormView.vue'), meta: { roles: ['admin', 'responsabile', 'magazziniere'] } },
+      { path: 'picking', name: 'Picking', component: () => import('@/views/PickingView.vue'), meta: { roles: ['admin', 'responsabile', 'magazziniere', 'operatore'] } },
+      { path: 'shipments', name: 'Shipments', component: () => import('@/views/ShipmentsView.vue'), meta: { roles: ['admin', 'responsabile', 'magazziniere'] } },
+      { path: 'iot', name: 'IoT', component: () => import('@/views/IoTDashboardView.vue'), meta: { roles: ['admin', 'responsabile'] } },
+      { path: 'inventory', name: 'Inventory', component: () => import('@/views/InventoryCountView.vue'), meta: { roles: ['admin', 'responsabile', 'magazziniere'] } },
+      { path: 'ai', name: 'AIInsights', component: () => import('@/views/AIInsightsView.vue'), meta: { roles: ['admin', 'responsabile'] } },
+      { path: 'integrations', name: 'Integrations', component: () => import('@/views/IntegrationsView.vue'), meta: { roles: ['admin'] } },
       { path: 'users', name: 'Users', component: () => import('@/views/UsersView.vue'), meta: { roles: ['admin'] } },
     ]
   }
