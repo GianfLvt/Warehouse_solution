@@ -4,6 +4,10 @@ import App from './App.vue'
 import router from './router'
 import './style.css'
 
+if (localStorage.getItem('bp_dark') === 'true') {
+  document.documentElement.classList.add('dark')
+}
+
 const app = createApp(App)
 app.use(createPinia())
 app.use(router)
