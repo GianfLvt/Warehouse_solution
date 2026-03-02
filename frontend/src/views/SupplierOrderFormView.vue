@@ -16,10 +16,7 @@
       <div>
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-sm font-semibold">Articoli *</h3>
-          <div class="flex gap-2">
-            <BarcodeScanner button-class="btn-secondary flex items-center gap-1 text-xs" @scanned="onScanSupplierItem" />
-            <button type="button" @click="addItem" class="btn-secondary text-xs">+ Aggiungi</button>
-          </div>
+          <button type="button" @click="addItem" class="btn-secondary text-xs">+ Aggiungi</button>
         </div>
         <div v-for="(item, i) in form.items" :key="i" class="flex flex-col sm:grid sm:grid-cols-12 gap-2 mb-3 p-3 sm:p-0 bg-gray-50 dark:bg-gray-700/30 sm:bg-transparent rounded-lg sm:items-end">
           <div class="sm:col-span-5">
@@ -59,7 +56,6 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/composables/api'
-import BarcodeScanner from '@/components/BarcodeScanner.vue'
 
 const router = useRouter()
 const products = ref([])
@@ -78,20 +74,6 @@ function removeItem(i) { if (form.value.items.length > 1) form.value.items.splic
 function onProductSelect(item) {
   const p = products.value.find(x => x.id === item.product_id)
   if (p) item.unit_price = p.purchase_price
-}
-
-async function onScanSupplierItem(code) {
-  try {
-    const { data } = await api.get(`/products/lookup/${encodeURIComponent(code)}`)
-    const existing = form.value.items.find(i => i.product_id === data.id)
-    if (existing) {
-      existing.quantity += 1
-    } else {
-      form.value.items.push({ product_id: data.id, quantity: 1, unit_price: data.purchase_price })
-    }
-  } catch {
-    alert('Prodotto non trovato per questo codice')
-  }
 }
 
 onMounted(async () => {

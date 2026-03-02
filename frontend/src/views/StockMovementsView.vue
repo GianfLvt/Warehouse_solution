@@ -9,13 +9,10 @@
       <form @submit.prevent="createMovement" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 items-end">
         <div>
           <label class="block text-sm font-medium mb-1">Prodotto *</label>
-          <div class="flex flex-col sm:flex-row gap-2">
-            <select v-model.number="newMov.product_id" class="input-field" required>
-              <option value="">Seleziona...</option>
-              <option v-for="p in products" :key="p.id" :value="p.id">{{ p.sku }} - {{ p.name }}</option>
-            </select>
-            <BarcodeScanner button-class="btn-secondary flex items-center gap-1 text-xs whitespace-nowrap justify-center" @scanned="onScanMovement" />
-          </div>
+          <select v-model.number="newMov.product_id" class="input-field" required>
+            <option value="">Seleziona...</option>
+            <option v-for="p in products" :key="p.id" :value="p.id">{{ p.sku }} - {{ p.name }}</option>
+          </select>
         </div>
         <div>
           <label class="block text-sm font-medium mb-1">Tipo *</label>
@@ -83,7 +80,6 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import api from '@/composables/api'
-import BarcodeScanner from '@/components/BarcodeScanner.vue'
 
 const products = ref([])
 const movements = ref([])
@@ -125,15 +121,6 @@ const typeClasses = {
   reso: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700',
 }
 function typeClass(t) { return typeClasses[t] || '' }
-
-async function onScanMovement(code) {
-  try {
-    const { data } = await api.get(`/products/lookup/${encodeURIComponent(code)}`)
-    newMov.value.product_id = data.id
-  } catch {
-    alert('Prodotto non trovato per questo codice')
-  }
-}
 
 watch([filterProduct, filterType], loadMovements)
 onMounted(() => { loadProducts(); loadMovements() })

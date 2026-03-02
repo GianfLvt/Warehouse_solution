@@ -8,7 +8,6 @@
     <div class="card mb-4">
       <div class="p-4 flex flex-wrap gap-3 items-center">
         <input v-model="search" class="input-field w-full sm:max-w-xs" placeholder="Cerca per nome, SKU o barcode..." />
-        <BarcodeScanner @scanned="onBarcodeScan" />
         <select v-model="category" class="input-field w-full sm:max-w-[180px]">
           <option value="">Tutte le categorie</option>
           <option v-for="c in categories" :key="c" :value="c">{{ c }}</option>
@@ -67,11 +66,7 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import api from '@/composables/api'
-import BarcodeScanner from '@/components/BarcodeScanner.vue'
-
-const router = useRouter()
 const products = ref([])
 const categories = ref([])
 const search = ref('')
@@ -99,17 +94,7 @@ async function deleteProduct(p) {
 }
 
 function formatLocation(p) {
-  const parts = [p.location_aisle, p.location_shelf, p.location_level, p.location_bin].filter(Boolean)
-  return parts.length ? parts.join(' / ') : '-'
-}
-
-async function onBarcodeScan(code) {
-  try {
-    const { data } = await api.get(`/products/lookup/${encodeURIComponent(code)}`)
-    router.push(`/products/${data.id}/edit`)
-  } catch {
-    router.push({ path: '/products/new', query: { barcode: code } })
-  }
+  return p.location || '-'
 }
 
 let timer

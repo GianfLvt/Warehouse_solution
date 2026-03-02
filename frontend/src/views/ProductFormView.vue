@@ -9,10 +9,7 @@
         </div>
         <div>
           <label class="block text-sm font-medium mb-1">Barcode</label>
-          <div class="flex gap-2">
-            <input v-model="form.barcode" class="input-field flex-1" placeholder="Scansiona o inserisci manualmente" />
-            <BarcodeScanner button-class="btn-secondary flex items-center gap-1 px-3 text-sm whitespace-nowrap" @scanned="onBarcodeScan" />
-          </div>
+          <input v-model="form.barcode" class="input-field" />
         </div>
         <div class="md:col-span-2">
           <label class="block text-sm font-medium mb-1">Nome *</label>
@@ -48,25 +45,10 @@
         </div>
       </div>
 
-      <div>
-        <h3 class="text-sm font-semibold mb-3">Ubicazione</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div>
-            <label class="block text-xs font-medium mb-1">Corsia</label>
-            <input v-model="form.location_aisle" class="input-field" />
-          </div>
-          <div>
-            <label class="block text-xs font-medium mb-1">Scaffale</label>
-            <input v-model="form.location_shelf" class="input-field" />
-          </div>
-          <div>
-            <label class="block text-xs font-medium mb-1">Ripiano</label>
-            <input v-model="form.location_level" class="input-field" />
-          </div>
-          <div>
-            <label class="block text-xs font-medium mb-1">Bin</label>
-            <input v-model="form.location_bin" class="input-field" />
-          </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Ubicazione</label>
+          <input v-model="form.location" class="input-field" placeholder="es. A1-S2-R3" />
         </div>
       </div>
 
@@ -99,7 +81,6 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/composables/api'
-import BarcodeScanner from '@/components/BarcodeScanner.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -112,8 +93,7 @@ const qrcodeUrl = computed(() => isEdit.value ? `/api/products/${route.params.id
 
 const form = ref({
   sku: '', barcode: '', name: '', description: '', category: '', supplier: '',
-  purchase_price: 0, sale_price: 0, quantity: 0, min_stock: 0,
-  location_aisle: '', location_shelf: '', location_level: '', location_bin: ''
+  purchase_price: 0, sale_price: 0, quantity: 0, min_stock: 0, location: ''
 })
 
 onMounted(async () => {
@@ -124,10 +104,6 @@ onMounted(async () => {
     form.value.barcode = route.query.barcode
   }
 })
-
-function onBarcodeScan(code) {
-  form.value.barcode = code
-}
 
 async function save() {
   saving.value = true

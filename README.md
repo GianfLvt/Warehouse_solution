@@ -1,6 +1,6 @@
-# WareHouse - Gestione Magazzino e Logistica
+# WareHouse - Gestione Magazzino
 
-Sistema integrato per la gestione completa di magazzino, ordini, spedizioni e clienti.
+Web application per la gestione di magazzino, prodotti, ordini e clienti.
 
 ## Stack Tecnologico
 
